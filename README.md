@@ -34,5 +34,25 @@ Keybindings:
 - `C-c C-c` : Compile your current file via `mmc --make file_name`
 - `C-c C-r` : Compile and run your current file (no interactive input)
 
+### Patches against original code (F. Nicol)
+
+This emacs mode is to preferred over the prolog-based one
+that is available on ELPA.   
+I have patched the original source code as follows:    
+   
++ added the following commands:    
+  `M-x metal-mercury-all-decls`     Find all declarations   
+  `M-x-metal-mercury-funcs`         Find all function declarations   
+  `M-x-metal-mercury-instances`     Find all instance declarations  
+  `M-x-metal-mercury-pragmas`       Find all pragma declarations         
+  `M-x-metal-mercury-preds`         Find all predicate declarations   
+  `M-x-metal-mercury-types`         Find all type declarations    
+  `M-x-metal-mercury-typeclasses`   Find all typeclass declarations   
+  
++ Automatically save all buffers after 
+one of the above commands is invoked.    
++ Automatically rename corresponding `\*gre\*` buffers 
+into `\*name\*` where `name`is the name of the command.
+
 ## License
 GPLv3
