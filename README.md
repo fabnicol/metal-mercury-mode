@@ -36,7 +36,7 @@ Keybindings:
 
 ### Patches against original code (F. Nicol)
 
-This emacs mode is to preferred over the prolog-based one
+This emacs mode is to preferred over the Prolog-based one
 that is available on ELPA.   
 I have patched the original source code as follows:    
    
@@ -51,8 +51,8 @@ I have patched the original source code as follows:
   
 + Automatically save all buffers after 
 one of the above commands is invoked.    
-+ Automatically rename corresponding `\*gre\*` buffers 
-into `\*name\*` where `name`is the name of the command.
++ Automatically rename corresponding `*grep*` buffers 
+into `*name*` where `name`is the name of the command.
 
 ## License
 GPLv3
