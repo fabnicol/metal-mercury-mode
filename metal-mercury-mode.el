@@ -56,7 +56,7 @@
 
 (defvar metal-mercury-mode-grep-module-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*\\(pred\\|func\\|type\\|typeclass\\|instance\\|pragma\\) " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*\\(pred\\|func\\|type\\|typeclass\\|instance\\|pragma\\|inst\\|mode\\|promise\\|initialise\\|initialize\\|finalise\\|finalize\\|mutable\\|module\\|end_module\\|interface\\|implementation\\|import_module\\|use_module\\|include_module\\|solver[\\ ]*type\\) " buffer-file-name))
   "Command that will show a Mercury file declarations.")
 
 (defvar metal-mercury-mode-grep-pred-declarations
