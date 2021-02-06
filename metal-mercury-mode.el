@@ -5,6 +5,7 @@
 ;; Author: Ludvig Böklin <ludvig.boklin@protonmail.com>
 ;; Author: Matthew Carter <m@ahungry.com>
 ;; Maintainer: Matthew Carter <m@ahungry.com>
+;; Additional author: Fabrice Nicol <fabnicol@users.sourceforge.net>
 ;; URL: https://github.com/ahungry/metal-mercury-mode
 ;; Version: 0.0.1
 ;; Keywords: ahungry emacs mercury prolog
@@ -62,32 +63,32 @@
 (defvar metal-mercury-mode-grep-pred-declarations
   (lambda (buffer-file-name)
     (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*pred " buffer-file-name))
-  "Command that will show a Mercury file declarations.")
+  "Command that will show a Mercury predicate declarations.")
 
 (defvar metal-mercury-mode-grep-func-declarations
   (lambda (buffer-file-name)
     (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*func " buffer-file-name))
-  "Command that will show a Mercury file declarations.")
+  "Command that will show a Mercury function declarations.")
 
 (defvar metal-mercury-mode-grep-typeclass-declarations
   (lambda (buffer-file-name)
     (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*typeclass " buffer-file-name))
-  "Command that will show a Mercury file declarations.")
+  "Command that will show a Mercury typeclass declarations.")
 
 (defvar metal-mercury-mode-grep-instance-declarations
   (lambda (buffer-file-name)
     (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*instance " buffer-file-name))
-  "Command that will show a Mercury file declarations.")
+  "Command that will show a Mercury instance declarations.")
 
 (defvar metal-mercury-mode-grep-pragma-declarations
   (lambda (buffer-file-name)
     (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*pragma " buffer-file-name))
-  "Command that will show a Mercury file declarations.")
+  "Command that will show a Mercury pragma declarations.")
 
 (defvar metal-mercury-mode-grep-type-declarations
   (lambda (buffer-file-name)
     (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*type " buffer-file-name))
-  "Command that will show a Mercury file declarations.")
+  "Command that will show a Mercury type declarations.")
 
  
 (defvar metal-mercury-mode-map
