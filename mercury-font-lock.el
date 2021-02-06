@@ -57,7 +57,8 @@ To disable this highlighting, set this to nil."
   '(;; keywords taken from the language reference manual.
     ;; allowed declarations
     "type" "solver" "pred" "func" "inst" "mode" "typeclass"
-    "instance" "pragma" "promise" "initialise" "finalise"
+    "instance" "pragma" "promise" "initialise" "initialize"
+    "finalise" "finalize" 
     "mutable" "module" "interface" "implementation" "import_module"
     "use_module" "include_module" "end_module"
     ;; determinism
