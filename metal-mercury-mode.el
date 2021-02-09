@@ -57,37 +57,37 @@
 
 (defvar metal-mercury-mode-grep-module-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;\\(pred\\|func\\|type\\|typeclass\\|instance\\|pragma\\|inst\\|mode\\|promise\\|initialise\\|initialize\\|finalise\\|finalize\\|mutable\\|module\\|end_module\\|interface\\|implementation\\|import_module\\|use_module\\|include_module\\|solver[\\ ];;type\\) " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*\\(pred\\|func\\|type\\|typeclass\\|instance\\|pragma\\|inst\\|mode\\|promise\\|initialise\\|initialize\\|finalise\\|finalize\\|mutable\\|module\\|end_module\\|interface\\|implementation\\|import_module\\|use_module\\|include_module\\|solver[\\ ]*type\\) " buffer-file-name))
   "Command that will show a Mercury file declarations.")
 
 (defvar metal-mercury-mode-grep-pred-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;pred " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*pred " buffer-file-name))
   "Command that will show a Mercury predicate declarations.")
 
 (defvar metal-mercury-mode-grep-func-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;func " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*func " buffer-file-name))
   "Command that will show a Mercury function declarations.")
 
 (defvar metal-mercury-mode-grep-typeclass-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;typeclass " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*typeclass " buffer-file-name))
   "Command that will show a Mercury typeclass declarations.")
 
 (defvar metal-mercury-mode-grep-instance-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;instance " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*instance " buffer-file-name))
   "Command that will show a Mercury instance declarations.")
 
 (defvar metal-mercury-mode-grep-pragma-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;pragma " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*pragma " buffer-file-name))
   "Command that will show a Mercury pragma declarations.")
 
 (defvar metal-mercury-mode-grep-type-declarations
   (lambda (buffer-file-name)
-    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ];;:-[\\ ];;type " buffer-file-name))
+    (cl-concatenate 'string "grep --color -n -H -E ^[\\ ]*:-[\\ ]*type " buffer-file-name))
   "Command that will show a Mercury type declarations.")
 
  
@@ -119,7 +119,7 @@
 
     ;; operator chars get punctuation syntax
     (mapc #'(lambda (ch) (modify-syntax-entry ch "." st))
-          "[-+;;/\\\\<>=:@^&.;,]+")
+          "[-+*/\\\\<>=:@^&.;,]+")
 
     ;; _ can be part of names, so give it symbol constituent syntax
     (modify-syntax-entry ?_ "_" st)
@@ -130,7 +130,7 @@
     (modify-syntax-entry ?_ "w" st)
     st)
   "Syntax table for metal-mercury-mode.")
-  
+
 ;; Imenu support
  ;;
  ;; A Mercury declaration, in this context, must be one of:
@@ -188,15 +188,15 @@
   "Compile and run the active mercury file."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
     (compile (funcall metal-mercury-mode-compile-function module-name))
-    (switch-to-buffer-other-window ";;compilation;;")))
+    (switch-to-buffer-other-window "*compilation*")))
 
 (defun metal-mercury-mode-runner ()
   "Compile and run the active mercury file."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
     (compile (funcall metal-mercury-mode-compile-function module-name))
     (shell-command (cl-concatenate 'string "./" module-name) "MERCURY-RUNNER")
     (switch-to-buffer-other-window "MERCURY-RUNNER")))
@@ -205,70 +205,70 @@
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-module-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-declarations;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-declarations*")
   ))
 
 (defun metal-mercury-types ()
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-type-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-types;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-types*")
   ))
 
 (defun metal-mercury-preds ()
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-pred-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-preds;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-preds*")
   ))
 
 (defun metal-mercury-funcs ()
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-func-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-funcs;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-funcs*")
   ))
 
 (defun metal-mercury-typeclasses ()
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-typeclass-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-typeclasses;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-typeclasses*")
   ))
 
 (defun metal-mercury-instances ()
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-instance-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-instances;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-instances*")
   ))
 
 (defun metal-mercury-pragmas ()
   "Grep declarations."
   (interactive)
   (save-some-buffers t)
-  (let ((module-name (replace-regexp-in-string ".;;\\/\\(.;;?\\)\\..;;" "\\1" (buffer-file-name))))
+  (let ((module-name (replace-regexp-in-string ".*\\/\\(.*?\\)\\..*" "\\1" (buffer-file-name))))
   (grep (funcall metal-mercury-mode-grep-pragma-declarations buffer-file-name))
-  (switch-to-buffer-other-window ";;grep;;")
-  (rename-buffer ";;metal-mercury-pragmas;;")
+  (switch-to-buffer-other-window "*grep*")
+  (rename-buffer "*metal-mercury-pragmas*")
   ))
 
 ;;;###autoload
