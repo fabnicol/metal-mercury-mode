@@ -56,7 +56,7 @@ into `*name*` where `name`is the name of the command.
 
 ### Imenu support
 
-Experimental `imenu` support has been added to remedy the relatively high rate of failure by Prolog-derived `mercury-mode` with `speedbar`or `imenu-lis-minor-mode`.
+Experimental `imenu` support has been added to remedy the relatively high rate of failure by Prolog-derived `mercury-mode` with `speedbar`or `imenu-lis-minor-mode`. See Wiki section.
 
 ## License
 GPLv3
